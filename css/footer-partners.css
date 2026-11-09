@@ -40,6 +40,42 @@
   line-height: 1.6;
 }
 
+#home-partners .logo-marquee {
+  min-height: 45rem;
+}
+
+#home-partners .sponsors-intro {
+  flex: none;
+}
+
+#home-partners .sponsors-intro p {
+  opacity: 0.65;
+}
+
+#home-partners .track {
+  animation-name: home-partners-marquee;
+}
+
+#home-partners .track.two {
+  animation-direction: reverse;
+}
+
+#home-partners .track:has(.logo-card:focus-visible) {
+  animation: none;
+}
+
+@keyframes home-partners-marquee {
+  to {
+    transform: translate3d(var(--marquee-cycle, 0px), 0, 0);
+  }
+}
+
+@media (max-width: 600px) {
+  #home-partners .logo-marquee {
+    min-height: 34rem;
+  }
+}
+
 .footer-main.sponsors-page-footer {
   min-height: auto;
   gap: clamp(3rem, 7vw, 7rem);
