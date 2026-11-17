@@ -1,0 +1,230 @@
+/* Team roster: horizontal row with hover preview. Used on index.html and team.html. */
+.team-row {
+  display: flex;
+  gap: 10px;
+  height: clamp(440px, 40vw, 580px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.team-row__item {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  transition: flex-grow 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.team-card {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+  font-family: Inter, sans-serif;
+}
+
+.team-card__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.72);
+  transform: scale(1.04);
+  transition: filter 0.45s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Red bar across the top of the active card */
+.team-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 3;
+  height: 4px;
+  background-color: #e83b4d;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Legibility gradient behind the text */
+.team-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.55) 32%, rgba(10, 10, 10, 0) 62%);
+  transition: opacity 0.45s ease;
+}
+
+.team-card__body {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  padding: 20px;
+}
+
+.team-card__name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.team-card__role {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0.7;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Preview: collapsed until the card is hovered or focused */
+.team-card__preview {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease;
+}
+
+.team-card__preview-inner {
+  overflow: hidden;
+  /* Fixed measure so the text does not reflow while the card widens */
+  width: min(340px, 72vw);
+}
+
+.team-card__bio {
+  margin: 14px 0 0;
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.team-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #e83b4d;
+}
+
+.team-card__cta svg {
+  width: 9px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.team-card:focus-visible {
+  outline: 2px solid #e83b4d;
+  outline-offset: 3px;
+}
+
+/* Pointer devices on wide screens: expand the hovered card, dim the rest */
+@media (hover: hover) and (min-width: 992px) {
+  .team-row__item:hover,
+  .team-row__item:focus-within {
+    flex-grow: 2.6;
+  }
+
+  .team-row:hover .team-row__item:not(:hover) .team-card__photo {
+    filter: grayscale(1) brightness(0.42);
+  }
+
+  .team-row__item:hover .team-card__photo,
+  .team-row__item:focus-within .team-card__photo {
+    filter: none;
+    transform: scale(1);
+  }
+
+  .team-row__item:hover .team-card::before,
+  .team-row__item:focus-within .team-card::before {
+    transform: scaleX(1);
+  }
+
+  .team-row__item:hover .team-card__role,
+  .team-row__item:focus-within .team-card__role {
+    opacity: 1;
+  }
+
+  .team-row__item:hover .team-card__preview,
+  .team-row__item:focus-within .team-card__preview {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition-delay: 0.12s;
+  }
+
+  .team-card:hover .team-card__cta svg {
+    transform: translateX(4px);
+  }
+}
+
+/* Touch devices and narrow screens: swipeable row with the preview always shown */
+@media (hover: none), (max-width: 991px) {
+  .team-row {
+    height: 480px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .team-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .team-row__item {
+    flex: 0 0 min(300px, 78vw);
+    scroll-snap-align: start;
+  }
+
+  .team-card__photo {
+    filter: none;
+    transform: none;
+  }
+
+  .team-card::before {
+    transform: scaleX(1);
+  }
+
+  .team-card__preview {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .team-card__preview-inner {
+    width: auto;
+  }
+
+  .team-card__name,
+  .team-card__role {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-row__item,
+  .team-card__photo,
+  .team-card::before,
+  .team-card__preview,
+  .team-card__cta svg {
+    transition: none;
+  }
+}
+
+/* Home page heading above the row */
+.team-row-heading {
+  margin-bottom: 40px;
+}
