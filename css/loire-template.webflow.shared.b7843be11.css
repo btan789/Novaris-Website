@@ -3248,14 +3248,12 @@ blockquote {
   overflow: hidden;
   inset: 0;
   background-image: url("../images/hero.webp");
-  /*url('https://picsum.photos/1600/900');*/
   background-size: cover;
   background-position: center;
   z-index: 0;
   transform: translateZ(0) scale(1.2);
   will-change: transform;
   filter: contrast(1.1) saturate(1.1);
-  /* filter: sepia(0.6) contrast(1.2) brightness(1.1) saturate(0.8) blur(0.4px) ; */
 }
 
 .vignette-container::after {
@@ -4040,16 +4038,6 @@ blockquote {
   flex-flow: column;
   text-decoration: none;
   display: flex;
-}
-
-.photo-badge {
-  background-image: url("../images/unlock-2.jpg");
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 7px;
-  min-width: 140px;
-  min-height: 130px;
 }
 
 .badge-paragraph {
@@ -6144,4 +6132,13 @@ blockquote {
     .card3 { --r: -0.6deg; }
     .card4 { --r: 0.9deg; }
     .card5 { --r: -0.8deg; }
+}
+
+/* Utilities */
+.text-accent {
+  color: var(--colors--second-color);
+}
+
+.partner-modal [hidden] {
+  display: none;
 }
