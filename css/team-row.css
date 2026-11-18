@@ -131,8 +131,29 @@
   outline-offset: 3px;
 }
 
-/* Pointer devices on wide screens: expand the hovered card, dim the rest */
-@media (hover: hover) and (min-width: 992px) {
+/* Medium-width windows: cards are narrower, so let names wrap and tighten spacing */
+@media (hover: hover) and (min-width: 768px) and (max-width: 1199px) {
+  .team-card__body {
+    padding: 16px;
+  }
+
+  .team-card__name {
+    font-size: 1.1rem;
+    white-space: normal;
+  }
+
+  .team-card__role {
+    font-size: 0.8rem;
+    white-space: normal;
+  }
+
+  .team-card__preview-inner {
+    width: min(300px, 26vw);
+  }
+}
+
+/* Pointer devices, tablet width and up: expand the hovered card, dim the rest */
+@media (hover: hover) and (min-width: 768px) {
   .team-row__item:hover,
   .team-row__item:focus-within {
     flex-grow: 2.6;
@@ -171,7 +192,7 @@
 }
 
 /* Touch devices and narrow screens: swipeable row with the preview always shown */
-@media (hover: none), (max-width: 991px) {
+@media (hover: none), (max-width: 767px) {
   .team-row {
     height: 480px;
     overflow-x: auto;
